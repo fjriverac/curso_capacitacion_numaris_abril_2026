@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen de Certificación — Módulo 1: Fundamentos Eléctricos Automotrices</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1a3a6b;--blue:#2980b9;--amber:#e67e22;
+  --red:#c0392b;--green:#27ae60;--white:#fff;
+  --light:#f0f4f8;--lgray:#dde3ec;--gray:#7f8c9a;--dark:#1c2a3a;
+  --radius:10px;--shadow:0 4px 18px rgba(0,0,0,.12)
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);min-height:100vh}
+
+/* Header */
+.exam-header{background:var(--navy);color:#fff;padding:24px 40px 20px;border-bottom:5px solid var(--amber);
+  position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.exam-header h1{font-size:1.25rem;font-weight:700}
+.exam-header .mod-label{font-size:.85rem;color:#afc3da;margin-top:4px}
+.timer-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;
+  padding:10px 22px;text-align:center;min-width:120px}
+.timer-box .timer-val{font-size:1.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.timer-box .timer-lbl{font-size:.72rem;color:#afc3da;letter-spacing:.08em}
+.timer-box.warning .timer-val{color:var(--amber)}
+.timer-box.danger .timer-val{color:#e74c3c;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* Progress */
+.progress-wrap{background:var(--lgray);height:6px;width:100%;position:sticky;top:74px;z-index:99}
+.progress-bar{background:linear-gradient(90deg,var(--blue),var(--amber));height:100%;width:0%;transition:width .4s ease}
+
+/* Body */
+.exam-body{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+
+/* Intro */
+#screen-intro{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:50px 60px;text-align:center}
+#screen-intro h2{font-size:1.9rem;color:var(--navy);margin-bottom:8px}
+#screen-intro .intro-mod{color:var(--amber);font-size:.95rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:28px}
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:30px 0 36px}
+.info-card{background:var(--light);border-radius:8px;padding:16px 10px;border-top:3px solid var(--blue)}
+.info-card .ic-val{font-size:1.5rem;font-weight:800;color:var(--navy)}
+.info-card .ic-lbl{font-size:.75rem;color:var(--gray);margin-top:4px}
+.intro-sections{text-align:left;margin-bottom:34px}
+.intro-sections h3{color:var(--navy);margin-bottom:12px;font-size:.95rem}
+.section-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:8px;
+  border-left:4px solid var(--blue);background:var(--light);margin-bottom:8px}
+.section-row .sr-badge{background:var(--navy);color:#fff;font-size:.72rem;font-weight:700;
+  padding:3px 8px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.section-row .sr-desc{font-size:.86rem;color:var(--dark)}
+.section-row .sr-pts{margin-left:auto;font-weight:700;color:var(--blue);white-space:nowrap}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 34px;border-radius:8px;border:none;
+  font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:#254f94;transform:translateY(-1px);box-shadow:0 4px 14px rgba(26,58,107,.35)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:#219a52}
+.btn-outline{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+.btn-outline:hover{background:var(--navy);color:#fff}
+
+/* Section headers */
+.section-header{display:flex;align-items:center;gap:14px;background:var(--navy);color:#fff;
+  border-radius:var(--radius) var(--radius) 0 0;padding:16px 26px;margin-top:38px}
+.section-header .sh-badge{background:var(--amber);color:#fff;font-size:.78rem;font-weight:800;
+  padding:3px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.section-header h2{font-size:1.1rem;flex:1}
+.section-header .sh-pts{font-size:.82rem;color:#afc3da;white-space:nowrap}
+.section-desc{background:#e8eef6;border-left:4px solid var(--blue);padding:12px 20px;
+  font-size:.86rem;color:#3a4a5a;border-bottom:1px solid var(--lgray)}
+
+/* Questions */
+.question-card{background:#fff;padding:26px 30px;border-bottom:1px solid var(--lgray)}
+.question-card:last-of-type{border-radius:0 0 var(--radius) var(--radius)}
+.q-number{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:7px}
+.q-text{font-size:.97rem;line-height:1.6;color:var(--dark);margin-bottom:18px;font-weight:500}
+.q-context{background:#fffbf2;border:1px solid #f5d88a;border-radius:8px;padding:14px 18px;
+  font-size:.87rem;color:#5a4200;margin-bottom:16px;line-height:1.55}
+.q-context strong{color:#8B4513}
+
+/* Options */
+.options{display:flex;flex-direction:column;gap:9px}
+.option-label{display:flex;align-items:flex-start;gap:13px;padding:13px 17px;border:2px solid var(--lgray);
+  border-radius:8px;cursor:pointer;transition:all .18s;line-height:1.5;font-size:.93rem}
+.option-label:hover{border-color:var(--blue);background:#f0f6ff}
+.option-label input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue);width:16px;height:16px}
+.option-label.selected{border-color:var(--blue);background:#eaf3fb}
+.option-label.correct{border-color:var(--green)!important;background:#eafaf1!important}
+.option-label.wrong{border-color:var(--red)!important;background:#fdedec!important}
+.option-label.reveal{border-color:var(--green)!important;background:#eafaf1!important}
+.opt-badge{font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:auto;white-space:nowrap;flex-shrink:0}
+.opt-badge.ok{background:var(--green);color:#fff}
+.opt-badge.ng{background:var(--red);color:#fff}
+
+/* TF */
+.tf-row{display:flex;gap:12px;margin-top:10px}
+.tf-btn{flex:1;padding:13px;border:2px solid var(--lgray);border-radius:8px;font-size:.97rem;font-weight:700;
+  cursor:pointer;background:#fff;transition:all .18s}
+.tf-btn:hover{border-color:var(--blue);background:#f0f6ff}
+.tf-btn.selected-v{border-color:var(--blue);background:#eaf3fb;color:var(--blue)}
+.tf-btn.selected-f{border-color:#8e44ad;background:#f5eefb;color:#8e44ad}
+.tf-btn.correct{border-color:var(--green)!important;background:#eafaf1!important;color:var(--green)!important}
+.tf-btn.wrong{border-color:var(--red)!important;background:#fdedec!important;color:var(--red)!important}
+.tf-btn.reveal{border-color:var(--green)!important;background:#eafaf1!important;color:var(--green)!important}
+.justify-label{font-size:.8rem;color:var(--gray);margin-top:13px;margin-bottom:5px;display:block;font-weight:600}
+.justify-input{width:100%;min-height:65px;border:2px solid var(--lgray);border-radius:8px;padding:9px 13px;
+  font-size:.86rem;font-family:inherit;resize:vertical;transition:border-color .18s;color:var(--dark)}
+.justify-input:focus{outline:none;border-color:var(--blue)}
+
+/* Case */
+.case-box{background:#f7f9fc;border:1px solid var(--lgray);border-left:5px solid var(--amber);
+  border-radius:8px;padding:18px 20px;margin-bottom:18px}
+.case-box .case-label{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);margin-bottom:7px}
+.case-box p{font-size:.91rem;line-height:1.65}
+.case-subq{margin-bottom:14px}
+.case-subq .csq-lbl{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+
+/* Sort */
+.sort-item{display:flex;align-items:center;gap:13px;padding:12px 17px;margin-bottom:7px;
+  background:#fff;border:2px solid var(--lgray);border-radius:8px;cursor:grab;transition:all .18s;font-size:.91rem}
+.sort-item:active{cursor:grabbing}
+.sort-item.dragging{opacity:.5}
+.sort-item.drag-over{border-color:var(--blue);background:#f0f6ff}
+.sort-item .step-num{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;
+  font-weight:800;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sort-item .drag-handle{color:var(--gray);font-size:1.05rem;cursor:grab}
+.sort-item.step-correct{border-color:var(--green)!important;background:#eafaf1!important}
+.sort-item.step-correct .step-num{background:var(--green)!important}
+.sort-item.step-wrong{border-color:var(--red)!important;background:#fdedec!important}
+.sort-item.step-wrong .step-num{background:var(--red)!important}
+
+/* Feedback */
+.feedback{display:none;margin-top:12px;padding:11px 15px;border-radius:8px;font-size:.86rem;line-height:1.55}
+.feedback.show{display:block}
+.feedback.fb-correct{background:#eafaf1;border-left:4px solid var(--green);color:#1e6640}
+.feedback.fb-wrong{background:#fdedec;border-left:4px solid var(--red);color:#7b1c1c}
+.feedback.fb-neutral{background:#eaf3fb;border-left:4px solid var(--blue);color:#1a3a6b}
+
+/* Submit bar */
+.submit-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:3px solid var(--amber);
+  padding:14px 40px;display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 -4px 18px rgba(0,0,0,.1);z-index:100}
+.submit-bar .answered{font-size:.88rem;color:var(--gray)}
+.submit-bar .answered span{color:var(--navy);font-weight:700}
+
+/* Results */
+#screen-results{display:none}
+.result-hero{background:var(--navy);color:#fff;border-radius:var(--radius);padding:46px 40px;
+  text-align:center;margin-bottom:24px;position:relative;overflow:hidden}
+.result-hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 70% 50%,rgba(41,128,185,.3) 0%,transparent 70%)}
+.result-hero .rh-badge{font-size:.78rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.15em;color:var(--amber);margin-bottom:14px}
+.result-hero .score-big{font-size:5rem;font-weight:900;line-height:1;margin:8px 0;position:relative}
+.result-hero .score-total{font-size:1.3rem;opacity:.7;position:relative}
+.result-hero .result-verdict{font-size:1.45rem;font-weight:700;margin:18px 0 6px;position:relative}
+.result-hero .result-pct{font-size:.95rem;opacity:.8;position:relative}
+.result-hero.pass{border-bottom:6px solid var(--green)}
+.result-hero.fail{border-bottom:6px solid var(--red)}
+
+.breakdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.bk-card{background:#fff;border-radius:var(--radius);padding:18px 14px;text-align:center;
+  box-shadow:var(--shadow);border-top:4px solid var(--blue)}
+.bk-card.pass-card{border-color:var(--green)}
+.bk-card.fail-card{border-color:var(--red)}
+.bk-val{font-size:1.75rem;font-weight:800;color:var(--navy)}
+.bk-lbl{font-size:.76rem;color:var(--gray);margin-top:4px}
+
+/* Review table */
+.review-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+.review-wrap h3{background:var(--navy);color:#fff;padding:14px 22px;font-size:1rem}
+.review-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.review-table th{background:var(--light);color:var(--navy);padding:10px 14px;text-align:left;
+  border-bottom:2px solid var(--lgray);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+.review-table td{padding:10px 14px;border-bottom:1px solid var(--lgray);vertical-align:top;line-height:1.5}
+.review-table tr.row-correct td:first-child{border-left:4px solid var(--green)}
+.review-table tr.row-wrong td:first-child{border-left:4px solid var(--red)}
+.review-table tr.row-partial td:first-child{border-left:4px solid var(--amber)}
+.r-icon{font-size:1.1rem;font-weight:900}
+.r-icon.ok{color:var(--green)}
+.r-icon.ng{color:var(--red)}
+.r-icon.partial{color:var(--amber)}
+.tag-correct{background:#eafaf1;color:#1e6640;font-size:.72rem;font-weight:700;
+  padding:2px 7px;border-radius:4px;display:inline-block}
+.tag-wrong{background:#fdedec;color:#7b1c1c;font-size:.72rem;font-weight:700;
+  padding:2px 7px;border-radius:4px;display:inline-block}
+.tag-partial{background:#fef9e7;color:#856404;font-size:.72rem;font-weight:700;
+  padding:2px 7px;border-radius:4px;display:inline-block}
+.pts-cell{white-space:nowrap;font-weight:700}
+
+/* Responsive */
+@media(max-width:640px){
+  .exam-header{padding:16px 18px}
+  .exam-header h1{font-size:.95rem}
+  .exam-body{padding:20px 12px 80px}
+  #screen-intro{padding:26px 18px}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+  .breakdown-grid{grid-template-columns:repeat(2,1fr)}
+  .question-card{padding:18px 16px}
+  .submit-bar{padding:10px 18px}
+  .review-table th,.review-table td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<header class="exam-header">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAAF1CAMAAACHwtYFAAACkVBMVEVMaXEUUI0UUI0UUI4UUI0UUI4UUI0UUI0UUI0VUI4VUI0UUI4VUI4UUIwVUI8VUI4VUI0UT40VT44UUI4UT40VUI4VUI0UT40UT44VUI0UUI0TUIwUUI4UUI0UUI4UUI0UUIwUUI4VT40UT40TUIkUT40UUI4UUI4TUIkUUI0UUI0SUIsVT40UUI0TUIsTUI4UUI0TUIsPUZIUUI0UUI0UT44UUI4UUI4UUI4UUI0TUIwVUI0UUI4UUI4RUIwUUI0UUI0UUI0UT40UUI0UUI0VUI0UUI0UUI0UUI0UUI4TUIwUUI0UUI0UUI0VT44UUI0UUI0VT40TUIwUUI0TUI0UUI0UUI0UUI0SUIoUUI0UUI0UUI0UUI0UUI0UUI0UUI0TUI0WUJMUUI0TUI0TUI0UUI0UUI0UUI0UUI0TUI0UUI0UUI0UUI0UUI0UUI0TUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UT44UUI0UUI0UUI0UUI0UUI0SUIwUUI0TUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI0UUI4UUI0SUIkUUI0TUIsUT40TUIwTUIwUUI0UUI0UUI0UUI0UUI4UUI0UUI0TUIwTUI0UUI0UUI0UUI0TUIwTUI0UUI0UUI0UUI0TUIwUUI0SUIoUUI0TUI0TUIwTUI0TUIwUUI0UUI0UUI4UT40TUI0TUIwUUI0TUI0UUI0TUIwUUI0UUI0UUI0UT44UUI0UUI4UUI0UUI0OUIQUUI4UT40UUI0UUI0UUI0TUI0UUI0VUI4UUI4UUI0VT44VUI0UT40UT44VT404mCkiAAAA03RSTlMA/fsD/v78AgH+/gT8AwL9/P7+/fz7/f3++/pY/BOmgBb6/vsR7fWJD3vcBfzuGiuLCQva6PwljeTfK/pf+xt5MyD6fc563Pnqxxz079b94vj9QrgnbMM2CMvylOZn94JAAtg4PkXeS9MxYk3rXH8skpasYG/FvLqdn49ZVrRHm6iYL/u2wFBwqg5pPNHhyfGw7Id3rnNU44x0BjoNhBILSc/UZMG9sh6lor+kEC7nUvUYmQfZJhkjFTVo+Nsk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" alt="Numaris" style="height:36px;filter:brightness(0) invert(1);">
+  <div>
+    <div class="mod-label">Examen de Certificación · Numaris</div>
+    <h1>Módulo 1: Fundamentos Eléctricos Automotrices</h1>
+  </div>
+  <div class="timer-box" id="timer-box">
+    <div class="timer-val" id="timer-display">45:00</div>
+    <div class="timer-lbl">TIEMPO RESTANTE</div>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+
+<!-- DISPONIBILIDAD -->
+<div class="exam-body" id="screen-disponibilidad" style="text-align:center;padding:60px 40px;">
+  <div id="disp-icon" style="font-size:3rem;margin-bottom:16px;">⏳</div>
+  <h2 id="disp-titulo" style="color:#1a2a4a;margin-bottom:12px;">Verificando disponibilidad...</h2>
+  <p id="disp-mensaje" style="color:#555;font-size:1rem;margin-bottom:8px;"></p>
+  <p id="disp-fechas" style="color:#1e4d8c;font-weight:600;font-size:.95rem;"></p>
+</div>
+
+<!-- BLOQUEO -->
+<div class="exam-body" id="screen-bloqueo" style="display:none;text-align:center;padding:60px 40px;">
+  <div style="font-size:3rem;margin-bottom:16px;">🔒</div>
+  <h2 style="color:#c0392b;margin-bottom:12px;" id="bloqueo-titulo">Acceso bloqueado</h2>
+  <p id="bloqueo-mensaje" style="color:#555;font-size:1rem;max-width:480px;margin:0 auto 16px;line-height:1.6;"></p>
+  <p style="color:#888;font-size:.85rem;">Si crees que es un error, contacta a tu instructor.</p>
+</div>
+
+<!-- INTRO -->
+<div class="exam-body" id="screen-intro" style="display:none">
+  <h2>Examen de Certificación</h2>
+  <div class="intro-mod">Módulo 1: Fundamentos Eléctricos Automotrices</div>
+  <div class="info-grid">
+    <div class="info-card"><div class="ic-val">30</div><div class="ic-lbl">Preguntas totales</div></div>
+    <div class="info-card"><div class="ic-val">100</div><div class="ic-lbl">Puntos totales</div></div>
+    <div class="info-card"><div class="ic-val">45 min</div><div class="ic-lbl">Tiempo límite</div></div>
+    <div class="info-card"><div class="ic-val">75 pts</div><div class="ic-lbl">Mínimo para aprobar</div></div>
+  </div>
+  <div class="intro-sections">
+    <h3>Estructura del examen</h3>
+    <div class="section-row"><span class="sr-badge">Sección A</span><span class="sr-desc">Opción múltiple — Teoría aplicada (11 preguntas)</span><span class="sr-pts">37 pts</span></div>
+    <div class="section-row"><span class="sr-badge">Sección B</span><span class="sr-desc">Opción múltiple — Teoría aplicada (13 preguntas)</span><span class="sr-pts">43 pts</span></div>
+    <div class="section-row"><span class="sr-badge">Sección C</span><span class="sr-desc">Casos prácticos (3 casos · 2 preguntas c/u)</span><span class="sr-pts">20 pts</span></div>
+  </div>
+  <div style="margin:24px 0 8px;text-align:left">
+    <label style="font-size:.9rem;font-weight:600;color:#1a2a4a;display:block;margin-bottom:6px">Cuenta del Técnico *</label>
+    <input type="text" id="input-nombre" placeholder="Escribe tu cuenta de correo electrónico" 
+      style="width:100%;padding:10px 14px;border:2px solid #dce3ec;border-radius:8px;font-size:.95rem;font-family:inherit;outline:none;transition:border .2s"
+      onfocus="this.style.borderColor='#1e4d8c'" onblur="this.style.borderColor='#dce3ec'">
+    <div id="nombre-error" style="color:#c0392b;font-size:.8rem;margin-top:4px;display:none">Por favor ingresa tu nombre para continuar.</div>
+  </div>
+  <button class="btn btn-primary" onclick="startExam()">▶ Iniciar examen</button>
+</div>
+
+<!-- EXAM -->
+<div class="exam-body" id="screen-exam" style="display:none">
+
+<div class="section-header" id="section-header-a" style="display:none">
+  <span class="sh-badge">Sección A</span>
+  <h2>Opción Múltiple — Teoría Aplicada</h2>
+  <span class="sh-pts">11 preguntas · 37 pts</span>
+</div>
+<div class="section-desc" id="section-desc-a" style="display:none">Selecciona la respuesta correcta. Lee cada opción con atención — todas son técnicamente plausibles.</div>
+
+<div class="question-card" id="qcard-1" style="display:none">
+  <div class="q-number">Pregunta 1 de 30</div>
+  <div class="q-text">¿Qué tipo de corriente produce el alternador de un vehículo?</div>
+  <div class="options" id="opts-1">
+  <label class="option-label"><input type="radio" name="q1" value="a"> Corriente Directa (DC), constante con respecto al tiempo.</label>
+  <label class="option-label"><input type="radio" name="q1" value="b"> Corriente Alterna (AC), constante y uniforme en el tiempo.</label>
+  <label class="option-label"><input type="radio" name="q1" value="c"> Corriente Directa (DC), obtenida sin necesidad de rectificación.</label>
+  <label class="option-label"><input type="radio" name="q1" value="d"> Corriente Alterna (AC), que cambia de polaridad, intensidad y dirección con respecto al tiempo.</label>
+</div>
+
+  <div class="feedback" id="fb-1"></div>
+</div>
+<div class="question-card" id="qcard-2" style="display:none">
+  <div class="q-number">Pregunta 2 de 30</div>
+  <div class="q-text">Según la Ley de Ohm, si un equipo GPS trabaja a 12V y consume 0.1A, ¿cuál es su resistencia equivalente?</div>
+  <div class="options" id="opts-2">
+  <label class="option-label"><input type="radio" name="q2" value="a"> 1.2 Ω</label>
+  <label class="option-label"><input type="radio" name="q2" value="b"> 120 Ω</label>
+  <label class="option-label"><input type="radio" name="q2" value="c"> 12 Ω</label>
+  <label class="option-label"><input type="radio" name="q2" value="d"> 1,200 Ω</label>
+</div>
+
+  <div class="feedback" id="fb-2"></div>
+</div>
+<div class="question-card" id="qcard-3" style="display:none">
+  <div class="q-number">Pregunta 3 de 30</div>
+  <div class="q-text">¿Cuál es la unidad de medición de la Resistencia Eléctrica?</div>
+  <div class="options" id="opts-3">
+  <label class="option-label"><input type="radio" name="q3" value="a"> Volt [V]</label>
+  <label class="option-label"><input type="radio" name="q3" value="b"> Ohm [Ω]</label>
+  <label class="option-label"><input type="radio" name="q3" value="c"> Ampere [A]</label>
+  <label class="option-label"><input type="radio" name="q3" value="d"> Watt [W]</label>
+</div>
+
+  <div class="feedback" id="fb-3"></div>
+</div>
+<div class="question-card" id="qcard-4" style="display:none">
+  <div class="q-number">Pregunta 4 de 30</div>
+  <div class="q-text">¿Cómo se conecta el multímetro al circuito para medir voltaje?</div>
+  <div class="options" id="opts-4">
+  <label class="option-label"><input type="radio" name="q4" value="a"> En paralelo, con la Punta Roja al punto positivo y la Punta Negra a tierra.</label>
+  <label class="option-label"><input type="radio" name="q4" value="b"> En serie, abriendo el conductor e insertando el multímetro.</label>
+  <label class="option-label"><input type="radio" name="q4" value="c"> Conectando únicamente la Punta Negra al punto de medición.</label>
+  <label class="option-label"><input type="radio" name="q4" value="d"> En paralelo, pero con la Punta Roja a tierra y la Punta Negra al positivo.</label>
+</div>
+
+  <div class="feedback" id="fb-4"></div>
+</div>
+<div class="question-card" id="qcard-5" style="display:none">
+  <div class="q-number">Pregunta 5 de 30</div>
+  <div class="q-text">¿Qué puede indicar la AUSENCIA de voltaje en un circuito del vehículo?</div>
+  <div class="options" id="opts-5">
+  <label class="option-label"><input type="radio" name="q5" value="a"> El sistema eléctrico opera normalmente dentro de su rango operativo.</label>
+  <label class="option-label"><input type="radio" name="q5" value="b"> Batería descargada por consumo excesivo del alternador.</label>
+  <label class="option-label"><input type="radio" name="q5" value="c"> Líneas o circuitos abiertos, o corto circuito con tierra.</label>
+  <label class="option-label"><input type="radio" name="q5" value="d"> Alta resistencia acumulada en la línea de alimentación positiva.</label>
+</div>
+
+  <div class="feedback" id="fb-5"></div>
+</div>
+<div class="question-card" id="qcard-6" style="display:none">
+  <div class="q-number">Pregunta 6 de 30</div>
+  <div class="q-text">¿Cómo se llama la falla eléctrica que se produce cuando dos puntos con niveles de voltaje distintos entran en contacto directo a través de un conductor de baja o nula resistencia?</div>
+  <div class="options" id="opts-6">
+  <label class="option-label"><input type="radio" name="q6" value="a"> Circuito Abierto.</label>
+  <label class="option-label"><input type="radio" name="q6" value="b"> Circuito con Alta Resistencia.</label>
+  <label class="option-label"><input type="radio" name="q6" value="c"> Corto Circuito.</label>
+  <label class="option-label"><input type="radio" name="q6" value="d"> Caída de tensión normal.</label>
+</div>
+
+  <div class="feedback" id="fb-6"></div>
+</div>
+<div class="question-card" id="qcard-7" style="display:none">
+  <div class="q-number">Pregunta 7 de 30</div>
+  <div class="q-text">¿Cuál es el rango operativo del sistema eléctrico de 12V para automóviles, camionetas y SUVs?</div>
+  <div class="options" id="opts-7">
+  <label class="option-label"><input type="radio" name="q7" value="a"> 10.5V – 13.5V</label>
+  <label class="option-label"><input type="radio" name="q7" value="b"> 11.0V – 15.0V</label>
+  <label class="option-label"><input type="radio" name="q7" value="c"> 12.0V – 14.7V</label>
+  <label class="option-label"><input type="radio" name="q7" value="d"> 11.8V – 14.4V</label>
+</div>
+
+  <div class="feedback" id="fb-7"></div>
+</div>
+<div class="question-card" id="qcard-8" style="display:none">
+  <div class="q-number">Pregunta 8 de 30</div>
+  <div class="q-text">¿Por qué el manual indica usar un tornillo del chasis SIN pintura para la conexión a tierra del GPS?</div>
+  <div class="options" id="opts-8">
+  <label class="option-label"><input type="radio" name="q8" value="a"> La pintura actúa como resistencia, creando una mala tierra que provoca fallas en el GPS.</label>
+  <label class="option-label"><input type="radio" name="q8" value="b"> La pintura conduce electricidad y puede causar cortocircuito con la carrocería.</label>
+  <label class="option-label"><input type="radio" name="q8" value="c"> Los tornillos pintados no tienen roscado automotriz certificado.</label>
+  <label class="option-label"><input type="radio" name="q8" value="d"> La normativa estética prohíbe tornillos pintados en instalaciones de rastreo.</label>
+</div>
+
+  <div class="feedback" id="fb-8"></div>
+</div>
+<div class="question-card" id="qcard-9" style="display:none">
+  <div class="q-number">Pregunta 9 de 30</div>
+  <div class="q-text">¿Cuál es la ventaja de la Punta Lógica frente a la lámpara de prueba de foco?</div>
+  <div class="options" id="opts-9">
+  <label class="option-label"><input type="radio" name="q9" value="a"> Es más económica y fácil de conseguir en cualquier ferretería.</label>
+  <label class="option-label"><input type="radio" name="q9" value="b"> No pone en riesgo los módulos de control electrónicos del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q9" value="c"> Puede medir valores numéricos exactos de voltaje y corriente.</label>
+  <label class="option-label"><input type="radio" name="q9" value="d"> Permite identificar señales CAN Bus y protocolos de comunicación.</label>
+</div>
+
+  <div class="feedback" id="fb-9"></div>
+</div>
+<div class="question-card" id="qcard-10" style="display:none">
+  <div class="q-number">Pregunta 10 de 30</div>
+  <div class="q-text">¿Cómo se obtiene la Corriente Directa (CD) a partir de la Corriente Alterna (CA)?</div>
+  <div class="options" id="opts-10">
+  <label class="option-label"><input type="radio" name="q10" value="a"> Por transformación, usando bobinas de inducción y transformadores de voltaje.</label>
+  <label class="option-label"><input type="radio" name="q10" value="b"> Por modulación de frecuencia en el alternador del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q10" value="c"> Por rectificación, utilizando componentes llamados diodos.</label>
+  <label class="option-label"><input type="radio" name="q10" value="d"> Por inversión de polaridad mediante un convertidor de señal.</label>
+</div>
+
+  <div class="feedback" id="fb-10"></div>
+</div>
+<div class="question-card" id="qcard-11" style="display:none">
+  <div class="q-number">Pregunta 11 de 30</div>
+  <div class="q-text">¿Cuál de los siguientes es un Estándar Obligatorio para el técnico instalador?</div>
+  <div class="options" id="opts-11">
+  <label class="option-label"><input type="radio" name="q11" value="a"> Usar únicamente cables de color negro para todas las tierras del GPS.</label>
+  <label class="option-label"><input type="radio" name="q11" value="b"> Manipulación de líneas protegidas con fusibles únicamente.</label>
+  <label class="option-label"><input type="radio" name="q11" value="c"> Instalar el GPS en la guantera para facilitar el acceso de servicio.</label>
+  <label class="option-label"><input type="radio" name="q11" value="d"> Conectar la tierra del GPS al mismo punto del sistema de audio del vehículo.</label>
+</div>
+
+  <div class="feedback" id="fb-11"></div>
+</div>
+<div class="question-card" id="qcard-12" style="display:none">
+  <div class="q-number">Pregunta 12 de 30</div>
+  <div class="q-text">Un cable AWG 22 soporta máximo 3A. Para un GPS de 1.5A en ruta de 4 metros, ¿qué problema puede surgir?</div>
+  <div class="options" id="opts-12">
+  <label class="option-label"><input type="radio" name="q12" value="a"> Ninguno; 1.5A está muy por debajo del límite del cable</label>
+  <label class="option-label"><input type="radio" name="q12" value="b"> El cable AWG 22 tiene mayor resistencia por metro; en 4m la caída de tensión puede superar el límite tolerable de 0.1V afectando el dispositivo</label>
+  <label class="option-label"><input type="radio" name="q12" value="c"> El cable AWG 22 no es apto para instalaciones automotrices en ningún caso</label>
+  <label class="option-label"><input type="radio" name="q12" value="d"> La corriente de 1.5A sobrecalienta el AWG 22 en rutas mayores a 1 metro</label>
+</div>
+
+  <div class="feedback" id="fb-12"></div>
+</div>
+<div class="question-card" id="qcard-13" style="display:none">
+  <div class="q-number">Pregunta 13 de 30</div>
+  <div class="q-text">¿Cuál es la función de un diodo de supresión instalado en paralelo con la bobina de un relé?</div>
+  <div class="options" id="opts-13">
+  <label class="option-label"><input type="radio" name="q13" value="a"> Aumentar la velocidad de activación del relé</label>
+  <label class="option-label"><input type="radio" name="q13" value="b"> Proteger el transistor/circuito de control contra el pico de voltaje inverso al desactivar la bobina</label>
+  <label class="option-label"><input type="radio" name="q13" value="c"> Regular el voltaje de la bobina a 5V para compatibilidad con microcontroladores</label>
+  <label class="option-label"><input type="radio" name="q13" value="d"> Prevenir que el relé se active sin señal de control</label>
+</div>
+
+  <div class="feedback" id="fb-13"></div>
+</div>
+<div class="section-header" id="section-header-b" style="display:none">
+  <span class="sh-badge">Sección B</span>
+  <h2>Opción Múltiple — Teoría Aplicada</h2>
+  <span class="sh-pts">13 preguntas · 43 pts</span>
+</div>
+<div class="section-desc" id="section-desc-b" style="display:none">Continúa respondiendo las siguientes preguntas de opción múltiple sobre el módulo.</div>
+<div class="question-card" id="qcard-14" style="display:none">
+  <div class="q-number">Pregunta 12 de 30</div>
+  <div class="q-text">¿Cuál es la definición de Voltaje o Tensión Eléctrica?</div>
+  <div class="options" id="opts-14">
+  <label class="option-label"><input type="radio" name="q14" value="a"> El flujo de electrones que circula a través de un conductor eléctrico, medido en Amperios.</label>
+  <label class="option-label"><input type="radio" name="q14" value="b"> La oposición que presenta un conductor al paso de la corriente eléctrica, medida en Ohms.</label>
+  <label class="option-label"><input type="radio" name="q14" value="c"> La diferencia de potencial eléctrico entre dos puntos; la fuerza que impulsa a los electrones a través del circuito. Se mide en Voltios [V].</label>
+  <label class="option-label"><input type="radio" name="q14" value="d"> La potencia total consumida por todos los componentes eléctricos del vehículo.</label>
+</div>
+
+  <div class="feedback" id="fb-14"></div>
+</div>
+<div class="question-card" id="qcard-15" style="display:none">
+  <div class="q-number">Pregunta 13 de 30</div>
+  <div class="q-text">Al medir corriente con el multímetro, ¿cuál es el procedimiento correcto?</div>
+  <div class="options" id="opts-15">
+  <label class="option-label"><input type="radio" name="q15" value="a"> Abrir el conductor y conectar el multímetro en serie en posición ACA o DCA según el tipo de corriente.</label>
+  <label class="option-label"><input type="radio" name="q15" value="b"> Colocar las puntas en paralelo con el accesorio sin necesidad de abrir el circuito.</label>
+  <label class="option-label"><input type="radio" name="q15" value="c"> Conectar la Punta Roja al positivo de la batería y la Punta Negra al negativo directamente.</label>
+  <label class="option-label"><input type="radio" name="q15" value="d"> Usar la posición DCV y medir en los extremos del fusible del circuito.</label>
+</div>
+
+  <div class="feedback" id="fb-15"></div>
+</div>
+<div class="question-card" id="qcard-16" style="display:none">
+  <div class="q-number">Pregunta 14 de 30</div>
+  <div class="q-text">¿Cuáles son las causas que pueden generar un Circuito Abierto?</div>
+  <div class="options" id="opts-16">
+  <label class="option-label"><input type="radio" name="q16" value="a"> Exceso de corriente por cortocircuito, batería descargada y módulo defectuoso.</label>
+  <label class="option-label"><input type="radio" name="q16" value="b"> Corto circuito con tierra, saturación de módulos electrónicos y fallo del regulador.</label>
+  <label class="option-label"><input type="radio" name="q16" value="c"> Alta resistencia por pintura, polaridad invertida y voltaje excesivo del alternador.</label>
+  <label class="option-label"><input type="radio" name="q16" value="d"> Fusible quemado, cable cortado voluntaria o involuntariamente, o línea cortada por daño.</label>
+</div>
+
+  <div class="feedback" id="fb-16"></div>
+</div>
+<div class="question-card" id="qcard-17" style="display:none">
+  <div class="q-number">Pregunta 15 de 30</div>
+  <div class="q-text">¿A qué tipo de vehículos corresponde el sistema eléctrico de 24V con rango operativo de 23.5–28.8V?</div>
+  <div class="options" id="opts-17">
+  <label class="option-label"><input type="radio" name="q17" value="a"> Automóviles de lujo, camionetas y SUVs de alta gama.</label>
+  <label class="option-label"><input type="radio" name="q17" value="b"> Camiones, autobuses y maquinaria pesada.</label>
+  <label class="option-label"><input type="radio" name="q17" value="c"> Motocicletas de gran cilindrada y cuatrimotos de trabajo.</label>
+  <label class="option-label"><input type="radio" name="q17" value="d"> Vehículos híbridos y eléctricos de última generación.</label>
+</div>
+
+  <div class="feedback" id="fb-17"></div>
+</div>
+<div class="question-card" id="qcard-18" style="display:none">
+  <div class="q-number">Pregunta 16 de 30</div>
+  <div class="q-text">¿Cuál es la definición de Corriente Eléctrica?</div>
+  <div class="options" id="opts-18">
+  <label class="option-label"><input type="radio" name="q18" value="a"> La diferencia de potencial eléctrico entre dos puntos que impulsa a los electrones en el circuito.</label>
+  <label class="option-label"><input type="radio" name="q18" value="b"> La oposición que presenta un material al paso de la electricidad, medida en Ohms [Ω].</label>
+  <label class="option-label"><input type="radio" name="q18" value="c"> El flujo o movimiento de electrones a través de un conductor eléctrico. Se mide en Amperios [A].</label>
+  <label class="option-label"><input type="radio" name="q18" value="d"> La energía almacenada en la batería del vehículo para alimentar los sistemas eléctricos.</label>
+</div>
+
+  <div class="feedback" id="fb-18"></div>
+</div>
+<div class="question-card" id="qcard-19" style="display:none">
+  <div class="q-number">Pregunta 17 de 30</div>
+  <div class="q-text">¿Qué debe hacer el técnico instalador ANTES de conectar cualquier equipo al sistema eléctrico del vehículo?</div>
+  <div class="options" id="opts-19">
+  <label class="option-label"><input type="radio" name="q19" value="a"> Instalar directamente basándose en el color estándar de los cables del arnés.</label>
+  <label class="option-label"><input type="radio" name="q19" value="b"> Desconectar la batería y esperar 30 minutos como protocolo de seguridad obligatorio.</label>
+  <label class="option-label"><input type="radio" name="q19" value="c"> Medir voltaje con multímetro y confirmar si el vehículo es de sistema 12V o 24V.</label>
+  <label class="option-label"><input type="radio" name="q19" value="d"> Consultar el diagrama eléctrico del fabricante sin realizar mediciones propias.</label>
+</div>
+
+  <div class="feedback" id="fb-19"></div>
+</div>
+<div class="question-card" id="qcard-20" style="display:none">
+  <div class="q-number">Pregunta 18 de 30</div>
+  <div class="q-text">¿Qué puede provocar un Corto Circuito en el sistema eléctrico de un vehículo?</div>
+  <div class="options" id="opts-20">
+  <label class="option-label"><input type="radio" name="q20" value="a"> Solo un apagado del GPS por ausencia de voltaje en la línea de ignición.</label>
+  <label class="option-label"><input type="radio" name="q20" value="b"> Caída de tensión gradual sin daños físicos en el cableado del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q20" value="c"> Sobrecalentamiento de cables, fusibles fundidos, módulos quemados y arcos eléctricos.</label>
+  <label class="option-label"><input type="radio" name="q20" value="d"> Activación del modo de protección del ECM sin daños al cableado.</label>
+</div>
+
+  <div class="feedback" id="fb-20"></div>
+</div>
+<div class="question-card" id="qcard-21" style="display:none">
+  <div class="q-number">Pregunta 19 de 30</div>
+  <div class="q-text">¿Qué tipo de corriente produce la batería de un vehículo automotriz?</div>
+  <div class="options" id="opts-21">
+  <label class="option-label"><input type="radio" name="q21" value="a"> Corriente Directa (CD), que fluye en un solo sentido.</label>
+  <label class="option-label"><input type="radio" name="q21" value="b"> Corriente Alterna (CA), igual que el alternador del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q21" value="c"> Corriente Pulsada, generada por el proceso de rectificación interna.</label>
+  <label class="option-label"><input type="radio" name="q21" value="d"> Corriente Trifásica, usada para alimentar el motor de arranque.</label>
+</div>
+
+  <div class="feedback" id="fb-21"></div>
+</div>
+<div class="question-card" id="qcard-22" style="display:none">
+  <div class="q-number">Pregunta 20 de 30</div>
+  <div class="q-text">¿Cuál de los siguientes es un RIESGO de realizar una mala instalación eléctrica?</div>
+  <div class="options" id="opts-22">
+  <label class="option-label"><input type="radio" name="q22" value="a"> Mejorar el rendimiento del GPS por mayor tensión disponible en el circuito.</label>
+  <label class="option-label"><input type="radio" name="q22" value="b"> Reducir el consumo de corriente del equipo GPS instalado.</label>
+  <label class="option-label"><input type="radio" name="q22" value="c"> Interferir o dañar Módulos Electrónicos del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q22" value="d"> Activar automáticamente el modo de ahorro de energía del GPS.</label>
+</div>
+
+  <div class="feedback" id="fb-22"></div>
+</div>
+<div class="question-card" id="qcard-23" style="display:none">
+  <div class="q-number">Pregunta 21 de 30</div>
+  <div class="q-text">¿Cuál es la función principal de la Punta Lógica?</div>
+  <div class="options" id="opts-23">
+  <label class="option-label"><input type="radio" name="q23" value="a"> Medir con precisión numérica el voltaje y la corriente de cualquier circuito.</label>
+  <label class="option-label"><input type="radio" name="q23" value="b"> Detectar señales de datos CAN Bus y LIN en el arnés del vehículo.</label>
+  <label class="option-label"><input type="radio" name="q23" value="c"> Verificar la continuidad del circuito midiendo resistencia en Ohms.</label>
+  <label class="option-label"><input type="radio" name="q23" value="d"> Determinar si en un cable existen 12V o está a tierra.</label>
+</div>
+
+  <div class="feedback" id="fb-23"></div>
+</div>
+<div class="question-card" id="qcard-24" style="display:none">
+  <div class="q-number">Pregunta 22 de 30</div>
+  <div class="q-text">¿Qué ocurre en un Circuito con Alta Resistencia?</div>
+  <div class="options" id="opts-24">
+  <label class="option-label"><input type="radio" name="q24" value="a"> La corriente aumenta hasta sobrepasar la capacidad del fusible y quemarlo.</label>
+  <label class="option-label"><input type="radio" name="q24" value="b"> Se genera un cortocircuito entre los extremos del componente de alta resistencia.</label>
+  <label class="option-label"><input type="radio" name="q24" value="c"> El circuito se interrumpe completamente y la corriente deja de fluir.</label>
+  <label class="option-label"><input type="radio" name="q24" value="d"> Se provoca una caída de tensión tal que otros componentes del circuito no pueden funcionar correctamente.</label>
+</div>
+
+  <div class="feedback" id="fb-24"></div>
+</div>
+<div class="question-card" id="qcard-25" style="display:none">
+  <div class="q-number">Pregunta 23 de 30</div>
+  <div class="q-text">¿Cuál de las siguientes es una Buena Práctica recomendada en el Módulo 1?</div>
+  <div class="options" id="opts-25">
+  <label class="option-label"><input type="radio" name="q25" value="a"> Medir siempre antes de conectar y nunca asumir voltajes.</label>
+  <label class="option-label"><input type="radio" name="q25" value="b"> Asumir el voltaje del sistema según el tamaño del vehículo para ahorrar tiempo.</label>
+  <label class="option-label"><input type="radio" name="q25" value="c"> Compartir el punto de tierra con motores eléctricos para simplificar la instalación.</label>
+  <label class="option-label"><input type="radio" name="q25" value="d"> Usar empalmes abiertos para facilitar futuras revisiones y mantenimiento.</label>
+</div>
+
+  <div class="feedback" id="fb-25"></div>
+</div>
+<div class="question-card" id="qcard-26" style="display:none">
+  <div class="q-number">Pregunta 24 de 30</div>
+  <div class="q-text">Para medir resistencia con el multímetro, ¿en qué posición debe colocarse la perilla?</div>
+  <div class="options" id="opts-26">
+  <label class="option-label"><input type="radio" name="q26" value="a"> En la posición DCV (Voltaje Directo) con las puntas en los extremos del componente.</label>
+  <label class="option-label"><input type="radio" name="q26" value="b"> En la posición DCA (Corriente Directa) insertando el multímetro en serie.</label>
+  <label class="option-label"><input type="radio" name="q26" value="c"> En la posición Ohms [Ω] con las puntas en cada extremo del componente a medir.</label>
+  <label class="option-label"><input type="radio" name="q26" value="d"> En la posición ACV (Voltaje Alterno) midiendo el componente con el circuito energizado.</label>
+</div>
+
+  <div class="feedback" id="fb-26"></div>
+</div><div class="section-header" id="section-header-c" style="display:none">
+  <span class="sh-badge">Sección C</span>
+  <h2>Resolución de Casos Prácticos</h2>
+  <span class="sh-pts">3 casos · 2 preguntas c/u = 20 pts</span>
+</div>
+<div class="section-desc" id="section-desc-c" style="display:none">Lee el escenario completo antes de responder. Cada caso tiene 2 preguntas de opción múltiple.</div>
+
+<div class="question-card" id="qcard-case1" style="display:none">
+  <div class="q-number">Caso Práctico 1 (Preguntas 25–26)</div>
+  <div class="case-box">
+    <div class="case-label">⚠ Escenario</div>
+    <p>Un técnico instala un GPS en una camioneta (12V). Al conectar, el GPS no enciende. El técnico mide 12.6V en la batería pero 0V en el conector del GPS. La continuidad entre la tierra del GPS y el chasis es correcta. El fusible visualmente parece intacto.</p>
+  </div>
+  <div class="case-subq">
+    <div class="csq-lbl">Pregunta 25: ¿Qué tipo de falla describe este escenario?</div>
+    <div class="options" id="opts-c1q1">
+  <label class="option-label"><input type="radio" name="c1q1" value="a"> Circuito Abierto, porque la corriente no llega al GPS aunque la batería está bien.</label>
+  <label class="option-label"><input type="radio" name="c1q1" value="b"> Corto Circuito, porque la corriente llegó al GPS con diferente polaridad.</label>
+  <label class="option-label"><input type="radio" name="c1q1" value="c"> Circuito con Alta Resistencia, porque hay caída de tensión en el positivo.</label>
+  <label class="option-label"><input type="radio" name="c1q1" value="d"> Fallo del alternador, porque no mantiene el voltaje hasta el GPS.</label>
+</div>
+
+  </div>
+  <div class="case-subq" style="margin-top:18px">
+    <div class="csq-lbl">Pregunta 26: ¿Cuál es la herramienta y posición correcta del multímetro para verificar el fusible?</div>
+    <div class="options" id="opts-c1q2">
+  <label class="option-label"><input type="radio" name="c1q2" value="a"> Punta Lógica: identificar si el fusible tiene voltaje positivo o negativo.</label>
+  <label class="option-label"><input type="radio" name="c1q2" value="b"> Multímetro en posición Ohms [Ω]: extraer el fusible y medir continuidad entre sus dos terminales.</label>
+  <label class="option-label"><input type="radio" name="c1q2" value="c"> Multímetro en posición DCV: medir voltaje en los terminales de la batería.</label>
+  <label class="option-label"><input type="radio" name="c1q2" value="d"> Multímetro en posición DCA: medir la corriente que pasa a través del fusible.</label>
+</div>
+
+  </div>
+  <div class="feedback" id="fb-case1"></div>
+</div>
+<div class="question-card" id="qcard-case2" style="display:none">
+  <div class="q-number">Caso Práctico 2 (Preguntas 27–28)</div>
+  <div class="case-box">
+    <div class="case-label">⚠ Escenario</div>
+    <p>Un GPS instalado en un autobús de 24V muestra comportamiento errático. La tierra del GPS está conectada a un tornillo con pintura en el piso del vehículo. La alimentación viene de la línea de ignición. El técnico mide 25.2V en la batería (dentro del rango 23.5–28.8V).</p>
+  </div>
+  <div class="case-subq">
+    <div class="csq-lbl">Pregunta 27: ¿Cuál es el error de instalación en este caso?</div>
+    <div class="options" id="opts-c2q1">
+  <label class="option-label"><input type="radio" name="c2q1" value="a"> La alimentación de ignición es incorrecta para un sistema de 24V.</label>
+  <label class="option-label"><input type="radio" name="c2q1" value="b"> El GPS no es compatible con sistemas de 24V de autobuses.</label>
+  <label class="option-label"><input type="radio" name="c2q1" value="c"> El voltaje de 25.2V está fuera del rango operativo del sistema de 24V.</label>
+  <label class="option-label"><input type="radio" name="c2q1" value="d"> La tierra está conectada a un tornillo con pintura, generando alta resistencia en el punto de tierra.</label>
+</div>
+
+  </div>
+  <div class="case-subq" style="margin-top:18px">
+    <div class="csq-lbl">Pregunta 28: ¿Qué debe hacer el técnico para confirmar y corregir el problema de tierra?</div>
+    <div class="options" id="opts-c2q2">
+  <label class="option-label"><input type="radio" name="c2q2" value="a"> Verificar continuidad del punto de tierra con el multímetro, retirar la pintura del tornillo y reconectar.</label>
+  <label class="option-label"><input type="radio" name="c2q2" value="b"> Medir el voltaje en el punto de tierra con el multímetro en posición DCV y reemplazar el fusible.</label>
+  <label class="option-label"><input type="radio" name="c2q2" value="c"> Usar la Punta Lógica para medir la polaridad del tornillo y determinar si es positivo o negativo.</label>
+  <label class="option-label"><input type="radio" name="c2q2" value="d"> Conectar la tierra a la batería directamente en lugar del chasis del vehículo.</label>
+</div>
+
+  </div>
+  <div class="feedback" id="fb-case2"></div>
+</div>
+<div class="question-card" id="qcard-case3" style="display:none">
+  <div class="q-number">Caso Práctico 3 (Preguntas 29–30)</div>
+  <div class="case-box">
+    <div class="case-label">⚠ Escenario</div>
+    <p>El GPS de una camioneta se apaga intermitentemente cada vez que se enciende el aire acondicionado. Con el A/C apagado se miden 12.8V en el conector del GPS. Con el A/C encendido se miden 11.1V en el mismo punto.</p>
+  </div>
+  <div class="case-subq">
+    <div class="csq-lbl">Pregunta 29: ¿Qué tipo de falla describe este comportamiento?</div>
+    <div class="options" id="opts-c3q1">
+  <label class="option-label"><input type="radio" name="c3q1" value="a"> Circuito Abierto, porque el voltaje desaparece por completo con el A/C encendido.</label>
+  <label class="option-label"><input type="radio" name="c3q1" value="b"> Corto Circuito, porque el A/C genera corriente inversa hacia el GPS.</label>
+  <label class="option-label"><input type="radio" name="c3q1" value="c"> Circuito con Alta Resistencia, porque la caída de tensión al compartir línea afecta el funcionamiento del GPS.</label>
+  <label class="option-label"><input type="radio" name="c3q1" value="d"> Fallo del alternador, porque no puede mantener el voltaje con alta demanda de corriente.</label>
+</div>
+  </div>
+  <div class="case-subq">
+    <div class="csq-lbl">Pregunta 30: ¿Cuál Buena Práctica del manual hubiera prevenido este problema?</div>
+    <div class="options" id="opts-c3q2">
+  <label class="option-label"><input type="radio" name="c3q2" value="a"> Medir siempre antes de conectar y tomar la alimentación del GPS de una línea independiente con fusible propio.</label>
+  <label class="option-label"><input type="radio" name="c3q2" value="b"> Instalar un fusible de mayor amperaje para soportar la carga del A/C y el GPS juntos.</label>
+  <label class="option-label"><input type="radio" name="c3q2" value="c"> Conectar el GPS directamente a la batería sin pasar por el arnés del vehículo.</label>
+  <label class="option-label"><input type="radio" name="c3q2" value="d"> Usar la Punta Lógica para verificar que la línea del A/C tiene voltaje positivo antes de compartirla.</label>
+</div>
+  </div>
+  <div class="feedback" id="fb-case3"></div>
+</div>
+<div id="question-nav" style="margin:28px 0 80px;text-align:center;display:none">
+  <div id="nav-error" style="color:#c0392b;background:#fdf2f2;border:1px solid #f5c6cb;border-radius:8px;padding:10px 20px;font-size:.85rem;margin-bottom:14px;display:none"></div>
+  <div id="step-indicator" style="font-size:.78rem;color:#7f8c8d;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px"></div>
+  <button class="btn btn-primary" id="btn-next" onclick="nextStep()">Siguiente →</button>
+</div>
+
+</div>
+
+<!-- RESULTS -->
+<div class="exam-body" id="screen-results">
+  <div class="result-hero" id="result-hero">
+    <div class="rh-badge">RESULTADO FINAL · MÓDULO 1</div>
+    <div class="score-big" id="score-big">—</div>
+    <div class="score-total">de 100 puntos</div>
+    <div class="result-verdict" id="result-verdict">—</div>
+    <div class="result-pct" id="result-pct"></div>
+  </div>
+  <div class="breakdown-grid">
+    <div class="bk-card" id="bkcard-a"><div class="bk-val" id="bk-a">—</div><div class="bk-lbl">Sección A (37 pts)</div></div>
+    <div class="bk-card" id="bkcard-b"><div class="bk-val" id="bk-b">—</div><div class="bk-lbl">Sección B (43 pts)</div></div>
+    <div class="bk-card" id="bkcard-c"><div class="bk-val" id="bk-c">—</div><div class="bk-lbl">Sección C (20 pts)</div></div>
+          </div>
+
+  <!-- VALIDATION TABLE -->
+</div>
+
+<!-- SUBMIT BAR -->
+<div class="submit-bar" id="submit-bar" style="display:none">
+  <div class="answered">Respondidas: <span id="answered-count">0</span> / 30</div>
+  <button class="btn btn-success" onclick="submitExam()">✔ Calificar Examen y Enviar</button>
+</div>
+
+<script>
+// ── Globals ────────────────────────────────────────────────────────────────
+const MODULO_ID = 'Módulo 1: Fundamentos Eléctricos Automotrices';
+const WEBAPP    = 'https://script.google.com/macros/s/AKfycbyxWZPW5JBlYk9shtxxSe_Q3uW-GbfNim-rQKHpEBOkQOLjsxnmPi-rzif4SCo_VT4/exec';
+
+const MC_ANSWERS   = {"q1": {"correct": "d", "exp": "Según el manual (sección 1.1.1), la Corriente Alterna (CA o AC) es producida por un alternador. Cambia de polaridad, de intensidad y de dirección con respecto al tiempo dependiendo de la frecuencia.", "opts": ["Corriente Directa (DC), constante con respecto al tiempo.", "Corriente Alterna (AC), constante y uniforme en el tiempo.", "Corriente Directa (DC), obtenida sin necesidad de rectificación.", "Corriente Alterna (AC), que cambia de polaridad, intensidad y dirección con respecto al tiempo."], "pts": 10/3}, "q2": {"correct": "b", "exp": "Aplicando R = V ÷ I (Ley de Ohm, sección 1.1.3.1): R = 12V ÷ 0.1A = 120Ω. Este es el ejemplo práctico automotriz citado textualmente en el manual.", "opts": ["1.2 Ω", "120 Ω", "12 Ω", "1,200 Ω"], "pts": 10/3}, "q3": {"correct": "b", "exp": "Según el manual (sección 1.1.2.3), la Resistencia es la oposición que presentan ciertos conductores al paso de la Corriente Eléctrica. Su unidad de medición es el Ohm [Ω].", "opts": ["Volt [V]", "Ohm [Ω]", "Ampere [A]", "Watt [W]"], "pts": 10/3}, "q4": {"correct": "a", "exp": "Según el manual (sección 1.2.2.2), la medición de voltaje se realiza en paralelo. La Punta Roja debe coincidir con el voltaje positivo y la Punta Negra con la Tierra.", "opts": ["En paralelo, con la Punta Roja al punto positivo y la Punta Negra a tierra.", "En serie, abriendo el conductor e insertando el multímetro.", "Conectando únicamente la Punta Negra al punto de medición.", "En paralelo, pero con la Punta Roja a tierra y la Punta Negra al positivo."], "pts": 10/3}, "q5": {"correct": "c", "exp": "Según el manual (sección 1.4), la ausencia de voltaje puede indicar: líneas o circuitos abiertos, o corto circuito con tierra. Un voltaje bajo indica batería descargada, conexión deficiente o cableado incorrecto. Un voltaje alto indica fallo del regulador del alternador o riesgo de daño al equipo GPS.", "opts": ["El sistema eléctrico opera normalmente dentro de su rango operativo.", "Batería descargada por consumo excesivo del alternador.", "Líneas o circuitos abiertos, o corto circuito con tierra.", "Alta resistencia acumulada en la línea de alimentación positiva."], "pts": 10/3}, "q6": {"correct": "c", "exp": "Según el manual (sección 1.3.1.2), el Corto Circuito es la falla eléctrica que se produce cuando dos puntos con niveles de voltaje distintos entran en contacto directo a través de un conductor de baja o nula resistencia.", "opts": ["Circuito Abierto.", "Circuito con Alta Resistencia.", "Corto Circuito.", "Caída de tensión normal."], "pts": 10/3}, "q7": {"correct": "d", "exp": "Según el manual (sección 1.4, tabla de sistemas eléctricos), el sistema de 12V tiene un rango operativo de 11.8V – 14.4V, correspondiente a automóviles, camionetas y SUVs.", "opts": ["10.5V – 13.5V", "11.0V – 15.0V", "12.0V – 14.7V", "11.8V – 14.4V"], "pts": 10/3}, "q8": {"correct": "a", "exp": "Según el manual (sección 1.4.1.1), una mala tierra es una de las fallas más comunes. Se debe usar tornillo del chasis sin pintura, ya que la pintura actúa como resistencia generando una mala tierra.", "opts": ["La pintura actúa como resistencia, creando una mala tierra que provoca fallas en el GPS.", "La pintura conduce electricidad y puede causar cortocircuito con la carrocería.", "Los tornillos pintados no tienen roscado automotriz certificado.", "La normativa estética prohíbe tornillos pintados en instalaciones de rastreo."], "pts": 10/3}, "q9": {"correct": "b", "exp": "Según el manual (sección 1.2.2), a diferencia de la lámpara de pruebas de foco, la Punta Lógica no pone en riesgo los módulos de control electrónicos del vehículo.", "opts": ["Es más económica y fácil de conseguir en cualquier ferretería.", "No pone en riesgo los módulos de control electrónicos del vehículo.", "Puede medir valores numéricos exactos de voltaje y corriente.", "Permite identificar señales CAN Bus y protocolos de comunicación."], "pts": 10/3}, "q10": {"correct": "c", "exp": "Según el manual (sección 1.1.1), la Corriente Directa (CD o DC) se obtiene a partir de la Corriente Alterna mediante un proceso llamado Rectificación, en el que se utilizan componentes llamados diodos. Este tipo de corriente circula en un solo sentido y es constante con respecto al tiempo.", "opts": ["Por transformación, usando bobinas de inducción y transformadores de voltaje.", "Por modulación de frecuencia en el alternador del vehículo.", "Por rectificación, utilizando componentes llamados diodos.", "Por inversión de polaridad mediante un convertidor de señal."], "pts": 10/3}, "q11": {"correct": "b", "exp": "Según el manual (sección 1.4.2.2), los Estándares Obligatorios incluyen: manipulación de líneas protegidas con fusibles únicamente, medición con multímetro, validar polaridades con punta lógica, uso de materiales aislantes y coples eléctricos.", "opts": ["Usar únicamente cables de color negro para todas las tierras del GPS.", "Manipulación de líneas protegidas con fusibles únicamente.", "Instalar el GPS en la guantera para facilitar el acceso de servicio.", "Conectar la tierra del GPS al mismo punto del sistema de audio del vehículo."], "pts": 10/3}, "q14": {"correct": "c", "exp": "Según el manual (sección 1.1.2.1), el Voltaje o Tensión Eléctrica es la diferencia de potencial eléctrico entre dos puntos de un circuito; es la fuerza que impulsa a los electrones a través del conductor. Su unidad de medición es el Voltio [V].", "opts": ["El flujo de electrones que circula a través de un conductor eléctrico, medido en Amperios.", "La oposición que presenta un conductor al paso de la corriente eléctrica, medida en Ohms.", "La diferencia de potencial eléctrico entre dos puntos; la fuerza que impulsa a los electrones a través del circuito. Se mide en Voltios [V].", "La potencia total consumida por todos los componentes eléctricos del vehículo."], "pts": 10/3, "short": "¿Definición de Voltaje o Tensión Eléctrica?"}, "q15": {"correct": "a", "exp": "Según el manual (sección 1.2.2.3), la medición de corriente se realiza en serie: se abre el conductor y se conecta el multímetro en posición ACA o DCA.", "opts": ["Abrir el conductor y conectar el multímetro en serie en posición ACA o DCA según el tipo de corriente.", "Colocar las puntas en paralelo con el accesorio sin necesidad de abrir el circuito.", "Conectar la Punta Roja al positivo de la batería y la Punta Negra al negativo directamente.", "Usar la posición DCV y medir en los extremos del fusible del circuito."], "pts": 10/3, "short": "¿Procedimiento correcto para medir corriente con el multímetro?"}, "q16": {"correct": "d", "exp": "Según el manual (sección 1.3.1.1), un Circuito Abierto se presenta cuando: el fusible se quema, se corta voluntaria o involuntariamente una línea, o una línea se corta a consecuencia de un daño.", "opts": ["Exceso de corriente por cortocircuito, batería descargada y módulo defectuoso.", "Corto circuito con tierra, saturación de módulos electrónicos y fallo del regulador.", "Alta resistencia por pintura, polaridad invertida y voltaje excesivo del alternador.", "Fusible quemado, cable cortado voluntaria o involuntariamente, o línea cortada por daño."], "pts": 10/3, "short": "¿Causas de un Circuito Abierto según el manual?"}, "q17": {"correct": "b", "exp": "Según el manual (sección 1.4, tabla), el sistema de 24V con rango 23.5–28.8V corresponde a camiones, autobuses y maquinaria pesada.", "opts": ["Automóviles de lujo, camionetas y SUVs de alta gama.", "Camiones, autobuses y maquinaria pesada.", "Motocicletas de gran cilindrada y cuatrimotos de trabajo.", "Vehículos híbridos y eléctricos de última generación."], "pts": 10/3, "short": "¿Qué vehículos usan sistema eléctrico de 24V?"}, "q18": {"correct": "c", "exp": "Según el manual (sección 1.1.2.2), la Corriente Eléctrica es el flujo o movimiento de electrones a través de un conductor eléctrico. Su unidad de medición es el Amperio [A]. No debe confundirse con el Voltaje (diferencia de potencial) ni con la Resistencia (oposición al paso de la corriente).", "opts": ["La diferencia de potencial eléctrico entre dos puntos que impulsa a los electrones en el circuito.", "La oposición que presenta un material al paso de la electricidad, medida en Ohms [Ω].", "El flujo o movimiento de electrones a través de un conductor eléctrico. Se mide en Amperios [A].", "La energía almacenada en la batería del vehículo para alimentar los sistemas eléctricos."], "pts": 10/3, "short": "¿Definición de Corriente Eléctrica según el manual?"}, "q19": {"correct": "c", "exp": "Según el manual (sección 1.4.1), el técnico debe identificar el sistema antes de instalar: medir voltaje con multímetro y confirmar si el vehículo es 12V o 24V.", "opts": ["Instalar directamente basándose en el color estándar de los cables del arnés.", "Desconectar la batería y esperar 30 minutos como protocolo de seguridad obligatorio.", "Medir voltaje con multímetro y confirmar si el vehículo es de sistema 12V o 24V.", "Consultar el diagrama eléctrico del fabricante sin realizar mediciones propias."], "pts": 10/3, "short": "¿Qué hacer ANTES de conectar cualquier equipo al vehículo?"}, "q20": {"correct": "c", "exp": "Según el manual (sección 1.3.1.2), el exceso de corriente generado por un Corto Circuito puede sobrecalentar cables, fundir fusibles, quemar módulos y provocar arcos eléctricos o incluso fuego.", "opts": ["Solo un apagado del GPS por ausencia de voltaje en la línea de ignición.", "Caída de tensión gradual sin daños físicos en el cableado del vehículo.", "Sobrecalentamiento de cables, fusibles fundidos, módulos quemados y arcos eléctricos.", "Activación del modo de protección del ECM sin daños al cableado."], "pts": 10/3, "short": "¿Qué puede provocar un Corto Circuito en el sistema eléctrico?"}, "q21": {"correct": "a", "exp": "Según el manual (sección 1.1.1), la batería produce Corriente Directa (CD o DC), que fluye en un solo sentido y es constante con respecto al tiempo. El alternador, en cambio, produce Corriente Alterna (CA), que cambia de polaridad, intensidad y dirección.", "opts": ["Corriente Directa (CD), que fluye en un solo sentido.", "Corriente Alterna (CA), igual que el alternador del vehículo.", "Corriente Pulsada, generada por el proceso de rectificación interna.", "Corriente Trifásica, usada para alimentar el motor de arranque."], "pts": 10/3, "short": "¿Qué tipo de corriente produce la batería del vehículo?"}, "q22": {"correct": "c", "exp": "Según el manual (sección 1.4.1.3, Riesgos), una mala instalación puede: provocar cortocircuitos, circuitos abiertos y circuitos con alta resistencia; descargar la batería; e interferir o dañar Módulos Electrónicos.", "opts": ["Mejorar el rendimiento del GPS por mayor tensión disponible en el circuito.", "Reducir el consumo de corriente del equipo GPS instalado.", "Interferir o dañar Módulos Electrónicos del vehículo.", "Activar automáticamente el modo de ahorro de energía del GPS."], "pts": 10/3, "short": "¿Cuál es un riesgo de una mala instalación eléctrica?"}, "q23": {"correct": "d", "exp": "Según el manual (sección 1.2.2), la Punta Lógica se utiliza principalmente para determinar la polaridad (voltaje positivo o voltaje negativo) de la línea a intervenir.", "opts": ["Medir con precisión numérica el voltaje y la corriente de cualquier circuito.", "Detectar señales de datos CAN Bus y LIN en el arnés del vehículo.", "Verificar la continuidad del circuito midiendo resistencia en Ohms.", "Determinar si en un cable existen 12V o está a tierra."], "pts": 10/3, "short": "¿Función principal de la Punta Lógica?"}, "q24": {"correct": "d", "exp": "Según el manual (sección 1.3.1.3), el Circuito con Alta Resistencia provoca una caída de tensión tal que otros componentes del mismo circuito no podrán funcionar correctamente.", "opts": ["La corriente aumenta hasta sobrepasar la capacidad del fusible y quemarlo.", "Se genera un cortocircuito entre los extremos del componente de alta resistencia.", "El circuito se interrumpe completamente y la corriente deja de fluir.", "Se provoca una caída de tensión tal que otros componentes del circuito no pueden funcionar correctamente."], "pts": 10/3, "short": "¿Qué ocurre en un Circuito con Alta Resistencia?"}, "q25": {"correct": "a", "exp": "Según el manual (sección 1.4.2), las Buenas Prácticas incluyen: medir siempre antes de conectar, nunca asumir voltajes, usar fusibles adecuados, respetar polaridades, asegurar tierras confiables y evitar empalmes mal aislados.", "opts": ["Medir siempre antes de conectar y nunca asumir voltajes.", "Asumir el voltaje del sistema según el tamaño del vehículo para ahorrar tiempo.", "Compartir el punto de tierra con motores eléctricos para simplificar la instalación.", "Usar empalmes abiertos para facilitar futuras revisiones y mantenimiento."], "pts": 10/3, "short": "¿Buena práctica del Módulo 1 para instalaciones seguras?"}, "q26": {"correct": "c", "exp": "Según el manual (sección 1.2.2.4), para medir resistencia se coloca la perilla en la posición Ohms [Ω] y se colocan las puntas en cada extremo del componente o resistor a medir.", "opts": ["En la posición DCV (Voltaje Directo) con las puntas en los extremos del componente.", "En la posición DCA (Corriente Directa) insertando el multímetro en serie.", "En la posición Ohms [Ω] con las puntas en cada extremo del componente a medir.", "En la posición ACV (Voltaje Alterno) midiendo el componente con el circuito energizado."], "pts": 10/3, "short": "¿Posición del multímetro para medir resistencia?"}};
+const CASE_ANSWERS = {"c1q1": {"correct": "a", "exp": "Según el manual (sección 1.3.1.1), el Circuito Abierto se presenta cuando existe una discontinuidad en la línea: el fusible quemado es una de las causas descritas. La batería entrega 12.6V pero 0V llega al GPS = circuito abierto en la línea positiva.", "opts": ["Circuito Abierto, porque la corriente no llega al GPS aunque la batería está bien.", "Corto Circuito, porque la corriente llegó al GPS con diferente polaridad.", "Circuito con Alta Resistencia, porque hay caída de tensión en el positivo.", "Fallo del alternador, porque no mantiene el voltaje hasta el GPS."], "pts": 10/3, "short": "Caso 1: ¿Qué tipo de falla describe el escenario?"}, "c1q2": {"correct": "b", "exp": "Según el manual (sección 1.2.2.4), para verificar continuidad se usa el multímetro en posición Ohms [Ω]. Un fusible en buen estado marca continuidad (≈0Ω); fundido marcará OL (circuito abierto).", "opts": ["Punta Lógica: identificar si el fusible tiene voltaje positivo o negativo.", "Multímetro en posición Ohms [Ω]: extraer el fusible y medir continuidad entre sus dos terminales.", "Multímetro en posición DCV: medir voltaje en los terminales de la batería.", "Multímetro en posición DCA: medir la corriente que pasa a través del fusible."], "pts": 10/3, "short": "Caso 1: ¿Herramienta y posición para verificar el fusible?"}, "c2q1": {"correct": "d", "exp": "Según el manual (sección 1.4.1.1), se debe usar tornillo del chasis SIN pintura. La pintura actúa como resistencia, generando una mala tierra que es una de las fallas más comunes.", "opts": ["La alimentación de ignición es incorrecta para un sistema de 24V.", "El GPS no es compatible con sistemas de 24V de autobuses.", "El voltaje de 25.2V está fuera del rango operativo del sistema de 24V.", "La tierra está conectada a un tornillo con pintura, generando alta resistencia en el punto de tierra."], "pts": 10/3, "short": "Caso 2: ¿Cuál es el error de instalación?"}, "c2q2": {"correct": "a", "exp": "Según el manual (sección 1.4.1.1 y 1.2.2.4), se debe verificar continuidad con multímetro y usar tornillo del chasis sin pintura para garantizar una tierra eléctricamente sólida.", "opts": ["Verificar continuidad del punto de tierra con el multímetro, retirar la pintura del tornillo y reconectar.", "Medir el voltaje en el punto de tierra con el multímetro en posición DCV y reemplazar el fusible.", "Usar la Punta Lógica para medir la polaridad del tornillo y determinar si es positivo o negativo.", "Conectar la tierra a la batería directamente en lugar del chasis del vehículo."], "pts": 10/3, "short": "Caso 2: ¿Cómo confirmar y corregir el problema de tierra?"}, "c3q1": {"correct": "c", "exp": "Según el manual (sección 1.3.1.3), el Circuito con Alta Resistencia provoca una caída de tensión. Al compartir línea con el A/C (alta demanda), la caída de tensión es suficiente para apagar el GPS.", "opts": ["Circuito Abierto, porque el voltaje desaparece por completo con el A/C encendido.", "Corto Circuito, porque el A/C genera corriente inversa hacia el GPS.", "Circuito con Alta Resistencia, porque la caída de tensión al compartir línea afecta el funcionamiento del GPS.", "Fallo del alternador, porque no puede mantener el voltaje con alta demanda de corriente."], "pts": 10/3, "short": "Caso 3: ¿Qué tipo de falla describe el comportamiento?"}, "c3q2": {"correct": "a", "exp": "Según las Buenas Prácticas del manual (sección 1.4.2): medir siempre antes de conectar y nunca asumir voltajes. El GPS debe tener una línea de alimentación independiente con fusible propio para evitar caídas de tensión por cargas compartidas.", "opts": ["Medir siempre antes de conectar y tomar la alimentación del GPS de una línea independiente con fusible propio.", "Instalar un fusible de mayor amperaje para soportar la carga del A/C y el GPS juntos.", "Conectar el GPS directamente a la batería sin pasar por el arnés del vehículo.", "Usar la Punta Lógica para verificar que la línea del A/C tiene voltaje positivo antes de compartirla."], "pts": 10/3, "short": "Caso 3: ¿Qué buena práctica hubiera prevenido el problema?"}};
+const MC_SHORTS    = ["¿Qué tipo de corriente produce el alternador de un vehículo?", "GPS a 12V y 0.1A: ¿cuál es su resistencia equivalente?", "¿Unidad de medición de la Resistencia Eléctrica?", "¿Cómo se conecta el multímetro para medir voltaje?", "¿Qué indica la ausencia de voltaje en un circuito del vehículo?", "¿Nombre de la falla por contacto directo entre puntos de voltaje distinto?", "¿Rango operativo del sistema de 12V en automóviles y SUVs?", "¿Por qué usar tornillo del chasis SIN pintura para la tierra?", "¿Ventaja de la Punta Lógica vs lámpara de prueba de foco?", "¿Cómo se obtiene la Corriente Directa (CD) a partir de la CA?", "¿Cuál es un Estándar Obligatorio para el técnico instalador?", "¿Definición de Voltaje o Tensión Eléctrica?", "¿Procedimiento correcto para medir corriente con el multímetro?", "¿Causas de un Circuito Abierto según el manual?", "¿Qué vehículos usan sistema eléctrico de 24V?", "¿Definición de Corriente Eléctrica según el manual?", "¿Qué hacer ANTES de conectar cualquier equipo al vehículo?", "¿Qué puede provocar un Corto Circuito en el sistema eléctrico?", "¿Qué puede indicar un voltaje alto en el sistema eléctrico?", "¿Cuál es un riesgo de una mala instalación eléctrica?", "¿Función principal de la Punta Lógica?", "¿Qué ocurre en un Circuito con Alta Resistencia?", "¿Buena práctica del Módulo 1 para instalaciones seguras?", "¿Posición del multímetro para medir resistencia?"];
+const TOTAL_PTS    = 100;
+const NUM_CASES    = 3;
+
+let TOTAL_SECONDS = 45 * 60;   // puede sobreescribirse con valor de Sheets
+let secondsLeft    = TOTAL_SECONDS;
+let timerInterval  = null;
+let timerStartMs   = null;
+let submitted      = false;
+let timedOut       = false;
+let examStartTime = null;
+
+
+// ── One Question at a Time ────────────────────────────────────────────────
+let currentStep = 0;
+const examSteps = [
+  {cardId:'qcard-1',    sIds:['section-header-a','section-desc-a'], val:()=>!!document.querySelector('input[name=q1]:checked')},
+  {cardId:'qcard-2',    sIds:[], val:()=>!!document.querySelector('input[name=q2]:checked')},
+  {cardId:'qcard-3',    sIds:[], val:()=>!!document.querySelector('input[name=q3]:checked')},
+  {cardId:'qcard-4',    sIds:[], val:()=>!!document.querySelector('input[name=q4]:checked')},
+  {cardId:'qcard-5',    sIds:[], val:()=>!!document.querySelector('input[name=q5]:checked')},
+  {cardId:'qcard-6',    sIds:[], val:()=>!!document.querySelector('input[name=q6]:checked')},
+  {cardId:'qcard-7',    sIds:[], val:()=>!!document.querySelector('input[name=q7]:checked')},
+  {cardId:'qcard-8',    sIds:[], val:()=>!!document.querySelector('input[name=q8]:checked')},
+  {cardId:'qcard-9',    sIds:[], val:()=>!!document.querySelector('input[name=q9]:checked')},
+  {cardId:'qcard-10',   sIds:[], val:()=>!!document.querySelector('input[name=q10]:checked')},
+  {cardId:'qcard-11',   sIds:[], val:()=>!!document.querySelector('input[name=q11]:checked')},
+  {cardId:'qcard-14',   sIds:['section-header-b','section-desc-b'], val:()=>!!document.querySelector('input[name=q14]:checked')},
+  {cardId:'qcard-15',   sIds:[], val:()=>!!document.querySelector('input[name=q15]:checked')},
+  {cardId:'qcard-16',   sIds:[], val:()=>!!document.querySelector('input[name=q16]:checked')},
+  {cardId:'qcard-17',   sIds:[], val:()=>!!document.querySelector('input[name=q17]:checked')},
+  {cardId:'qcard-18',   sIds:[], val:()=>!!document.querySelector('input[name=q18]:checked')},
+  {cardId:'qcard-19',   sIds:[], val:()=>!!document.querySelector('input[name=q19]:checked')},
+  {cardId:'qcard-20',   sIds:[], val:()=>!!document.querySelector('input[name=q20]:checked')},
+  {cardId:'qcard-21',   sIds:[], val:()=>!!document.querySelector('input[name=q21]:checked')},
+  {cardId:'qcard-22',   sIds:[], val:()=>!!document.querySelector('input[name=q22]:checked')},
+  {cardId:'qcard-23',   sIds:[], val:()=>!!document.querySelector('input[name=q23]:checked')},
+  {cardId:'qcard-24',   sIds:[], val:()=>!!document.querySelector('input[name=q24]:checked')},
+  {cardId:'qcard-25',   sIds:[], val:()=>!!document.querySelector('input[name=q25]:checked')},
+  {cardId:'qcard-26',   sIds:[], val:()=>!!document.querySelector('input[name=q26]:checked')},
+  {cardId:'qcard-case1',sIds:['section-header-c','section-desc-c'], val:()=>!!document.querySelector('input[name=c1q1]:checked')&&!!document.querySelector('input[name=c1q2]:checked')},
+  {cardId:'qcard-case2',sIds:[], val:()=>!!document.querySelector('input[name=c2q1]:checked')&&!!document.querySelector('input[name=c2q2]:checked')},
+  {cardId:'qcard-case3',sIds:[], val:()=>!!document.querySelector('input[name=c3q1]:checked')&&!!document.querySelector('input[name=c3q2]:checked')},
+];
+
+function showStep(n) {
+  document.querySelectorAll('.question-card').forEach(c => c.style.display = 'none');
+  ['section-header-a','section-desc-a','section-header-b','section-desc-b',
+   'section-header-c','section-desc-c','section-header-d','section-desc-d'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  });
+  const step = examSteps[n];
+  step.sIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = ''; });
+  const card = document.getElementById(step.cardId);
+  if (card) card.style.display = '';
+  const nav = document.getElementById('question-nav');
+  const btn = document.getElementById('btn-next');
+  const ind = document.getElementById('step-indicator');
+  if (nav) nav.style.display = 'block';
+  if (ind) ind.textContent = 'Paso ' + (n + 1) + ' de ' + examSteps.length;
+  if (n === examSteps.length - 1) {
+    if (btn) { btn.textContent = '✔ Calificar Examen y Enviar'; btn.className = 'btn btn-success'; }
+  } else {
+    if (btn) { btn.textContent = 'Siguiente →'; btn.className = 'btn btn-primary'; }
+  }
+  const err = document.getElementById('nav-error');
+  if (err) err.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+  const step = examSteps[currentStep];
+  const err = document.getElementById('nav-error');
+  if (!step.val()) {
+    if (err) {
+      err.textContent = currentStep === examSteps.length - 1
+        ? '⚠ Arrastra al menos un elemento para ordenar la lista antes de enviar.'
+        : '⚠ Por favor responde esta pregunta antes de continuar.';
+      err.style.display = 'block';
+    }
+    return;
+  }
+  if (err) err.style.display = 'none';
+  if (currentStep === examSteps.length - 1) {
+    submitExam();
+  } else {
+    currentStep++;
+    showStep(currentStep);
+    updateProgress();
+  }
+}
+
+// ── Timer (basado en Date.now() para evitar drift de setInterval) ────────
+function startTimer() {
+  timerStartMs = Date.now();
+  timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - timerStartMs) / 1000);
+    secondsLeft = Math.max(0, TOTAL_SECONDS - elapsed);
+    const m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
+    document.getElementById('timer-display').textContent =
+      String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    const box = document.getElementById('timer-box');
+    if (secondsLeft <= 300) box.className = 'timer-box danger';
+    else if (secondsLeft <= 600) box.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmitOnTimeout(); }
+  }, 500);
+}
+
+// ── Auto-envío por tiempo agotado ─────────────────────────────────────────
+function autoSubmitOnTimeout() {
+  if (timedOut || submitted) return;
+  timedOut = true;
+  clearInterval(timerInterval);
+
+  // Bloquear todas las respuestas inmediatamente
+  document.querySelectorAll('input[type=radio]').forEach(function(r){ r.disabled = true; });
+
+  // Ocultar pantalla de examen y barra de envío
+  document.getElementById('screen-exam').style.display  = 'none';
+  document.getElementById('submit-bar').style.display   = 'none';
+
+  // Configurar pantalla de bloqueo para tiempo agotado
+  var blq = document.getElementById('screen-bloqueo');
+  var iconEl = blq.querySelector('div[style*="font-size:3rem"]');
+  if (iconEl) iconEl.textContent = '⏰';
+  var tituloEl = document.getElementById('bloqueo-titulo');
+  tituloEl.textContent = 'Tiempo Agotado';
+  tituloEl.style.color = '#e67e22';
+  document.getElementById('bloqueo-mensaje').textContent =
+    'El tiempo límite de ' + Math.round(TOTAL_SECONDS / 60) + ' minutos ha expirado. Tu examen está siendo calificado y enviado automáticamente.';
+  // Ocultar el texto de contacto al instructor
+  var pContacto = blq.querySelector('p:last-of-type');
+  if (pContacto && pContacto.textContent.includes('instructor')) pContacto.style.display = 'none';
+  // Agregar indicador de envío
+  var sendEl = document.createElement('div');
+  sendEl.id = 'timeout-sending-msg';
+  sendEl.style.cssText = 'margin-top:18px;color:#e67e22;font-size:.95rem;font-weight:600;';
+  sendEl.textContent = '⌛ Calculando resultado y enviando...';
+  blq.appendChild(sendEl);
+
+  // Mostrar pantalla de bloqueo
+  blq.style.display = '';
+
+  // Calificar y enviar después de 2 segundos (el alumno ve el mensaje)
+  setTimeout(function() { submitExam(); }, 2000);
+}
+
+// ── Bloqueo de reingreso ──────────────────────────────────────────────────
+function mostrarBloqueo(mensaje) {
+  document.getElementById('screen-disponibilidad').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-exam').style.display = 'none';
+  document.getElementById('submit-bar').style.display = 'none';
+  document.getElementById('bloqueo-titulo').textContent = 'Acceso bloqueado';
+  document.getElementById('bloqueo-mensaje').textContent = mensaje;
+  document.getElementById('screen-bloqueo').style.display = '';
+}
+
+// ── Start ─────────────────────────────────────────────────────────────────
+function startExam() {
+  const nombreInput = document.getElementById('input-nombre');
+  if (!nombreInput || !nombreInput.value.trim()) {
+    document.getElementById('nombre-error').style.display = 'block';
+    nombreInput.focus();
+    return;
+  }
+  document.getElementById('nombre-error').style.display = 'none';
+
+  const _nombre = nombreInput.value.trim();
+  const _modulo = MODULO_ID;
+  const _lsKey  = 'numaris_sesion_' + _modulo.replace(/[^a-z0-9]/gi,'_');
+
+  // 1. Check localStorage (same browser)
+  let _lsData = null;
+  try { _lsData = JSON.parse(localStorage.getItem(_lsKey) || 'null'); } catch(e) {}
+
+  // Always verify with Sheets — instructor may have set DESBLOQUEADO
+  const btn = document.querySelector('#screen-intro .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Verificando...'; }
+
+  fetch(WEBAPP + '?action=verificar_sesion&nombre=' + encodeURIComponent(_nombre) + '&modulo=' + encodeURIComponent(_modulo))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.permitido) {
+        // Sheets says blocked
+        mostrarBloqueo(d.mensaje || 'No se permite reingresar a este examen.');
+        if (btn) { btn.disabled = false; btn.textContent = '▶ Iniciar examen'; }
+        return;
+      }
+      // Sheets says permitido — if localStorage was blocking, instructor unlocked it
+      if (_lsData && _lsData.bloqueado) {
+        try { localStorage.removeItem(_lsKey); } catch(e) {}
+      }
+      // 3. Register start in Sheets
+      examStartTime = new Date();
+      fetch(WEBAPP, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'registrar_inicio', nombre: _nombre, modulo: _modulo, startTime: examStartTime.toISOString() })
+      }).catch(function(){});
+      // 4. Lock localStorage
+      try { localStorage.setItem(_lsKey, JSON.stringify({ bloqueado: true, razon: 'ya_iniciado', nombre: _nombre })); } catch(e){}
+      // 5. Start exam
+      document.getElementById('screen-intro').style.display = 'none';
+      document.getElementById('screen-exam').style.display = 'block';
+      startTimer();
+      updateProgress();
+      showStep(0);
+      document.querySelectorAll('input[type=radio]').forEach(r => {
+        r.addEventListener('change', () => {
+          const opts = r.closest('.options');
+          if (opts) opts.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+          r.closest('.option-label').classList.add('selected');
+          updateProgress();
+        });
+      });
+    })
+    .catch(function(){
+      // If Sheets unreachable, start exam anyway
+      examStartTime = new Date();
+      try { localStorage.setItem('numaris_sesion_' + MODULO_ID.replace(/[^a-z0-9]/gi,'_'), JSON.stringify({ bloqueado: true, razon: 'ya_iniciado' })); } catch(e){}
+      document.getElementById('screen-intro').style.display = 'none';
+      document.getElementById('screen-exam').style.display = 'block';
+      startTimer(); updateProgress(); showStep(0);
+      if (btn) { btn.disabled = false; }
+      document.querySelectorAll('input[type=radio]').forEach(r => {
+        r.addEventListener('change', () => {
+          const opts = r.closest('.options');
+          if (opts) opts.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+          r.closest('.option-label').classList.add('selected');
+          updateProgress();
+        });
+      });
+    });
+}
+
+
+// ── Progress ──────────────────────────────────────────────────────────────
+function updateProgress() {
+  let answered = 0;
+  Object.keys(MC_ANSWERS).forEach(name => {
+    if (document.querySelector(`input[name=${name}]:checked`)) answered++;
+  });
+  ['c1q1','c1q2','c2q1','c2q2','c3q1','c3q2'].forEach(name => {
+    if (document.querySelector(`input[name=${name}]:checked`)) answered++;
+  });
+  document.getElementById('answered-count').textContent = answered;
+  const totalAnswerable = Object.keys(MC_ANSWERS).length + 6;
+  document.getElementById('progress-bar').style.width = (answered / totalAnswerable * 100) + '%';
+}
+
+
+// ── Submit ────────────────────────────────────────────────────────────────
+function submitExam() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  let scoreA = 0, scoreB = 0, scoreC = 0, scoreD = 0;
+  const reviewRows = [];
+
+  // Helper: mark MC question
+  function gradeMC(name, optsId, fbId, sectionLabel, shortLabel) {
+    const ans = MC_ANSWERS[name] || CASE_ANSWERS[name];
+    const sel = document.querySelector(`input[name=${name}]:checked`);
+    const opts = document.getElementById(`opts-${optsId || name.replace('q','')}`);
+    const fb   = document.getElementById(`fb-${fbId}`);
+
+    document.querySelectorAll(`input[name=${name}]`).forEach(r => r.disabled = true);
+
+    if (opts) {
+      opts.querySelectorAll('.option-label').forEach(lbl => {
+        lbl.classList.remove('selected');
+      });
+    }
+
+    const isOk = sel && sel.value === ans.correct;
+    const ptsEarned = isOk ? ans.pts : 0;
+
+
+    const userOptIdx = sel ? sel.value.charCodeAt(0) - 97 : -1;
+    const userText = userOptIdx >= 0 && ans.opts ? ans.opts[userOptIdx] : '—';
+    const corrOptIdx = ans.correct.charCodeAt(0) - 97;
+    const corrText = ans.opts ? ans.opts[corrOptIdx] : ans.correct;
+
+    reviewRows.push({
+      section: sectionLabel,
+      short: shortLabel || ans.short || name,
+      userAnswer: userText.length > 50 ? userText.substring(0,50)+'...' : userText,
+      corrAnswer: corrText.length > 50 ? corrText.substring(0,50)+'...' : corrText,
+      isOk,
+      pts: ptsEarned,
+      maxPts: ans.pts
+    });
+
+    return ptsEarned;
+  }
+
+  // Section A (q1–13) & Section B (q14–26)
+  Object.keys(MC_ANSWERS).forEach((name, i) => {
+    const qNum = parseInt(name.replace('q',''));
+    const secLabel = qNum <= 11 ? 'A' : 'B';
+    const pts = gradeMC(name, name.replace('q',''), name.replace('q',''), secLabel, MC_SHORTS[i]);
+    if (qNum <= 13) scoreA += pts;
+    else scoreB += pts;
+  });
+
+  // Section B (Casos Prácticos)
+  for (let ci = 1; ci <= NUM_CASES; ci++) {
+    const ca = CASE_ANSWERS;
+    const n1 = `c${ci}q1`, n2 = `c${ci}q2`;
+    const p1 = gradeMC(n1, `c${ci}q1`, `case${ci}`, 'C', ca[n1].short);
+    const p2 = gradeMC(n2, `c${ci}q2`, `case${ci}`, 'C', ca[n2].short);
+    scoreC += p1 + p2;
+  }
+
+
+
+
+
+  // ── Total ──────────────────────────────────────────────────────────────
+  const total = scoreA + scoreB + scoreC;
+  const pass  = total >= 75;
+
+  // Show results
+  document.getElementById('screen-exam').style.display    = 'none';
+  document.getElementById('submit-bar').style.display     = 'none';
+  document.getElementById('screen-bloqueo').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+  // If exam was auto-submitted on timeout, show a notice banner
+  if (timedOut) {
+    var existingBanner = document.getElementById('timeout-banner');
+    if (!existingBanner) {
+      var banner = document.createElement('div');
+      banner.id = 'timeout-banner';
+      banner.style.cssText = 'background:#e67e22;color:#fff;text-align:center;padding:14px 20px;'
+        + 'font-weight:700;font-size:1rem;border-radius:10px;margin-bottom:20px;letter-spacing:.02em;';
+      banner.textContent = '⏰ Examen enviado automáticamente — tiempo agotado';
+      var heroEl = document.getElementById('result-hero');
+      if (heroEl && heroEl.parentNode) heroEl.parentNode.insertBefore(banner, heroEl);
+    }
+  }
+
+  const hero = document.getElementById('result-hero');
+  hero.className = 'result-hero ' + (pass ? 'pass' : 'fail');
+  document.getElementById('score-big').textContent    = Math.round(total);
+  document.getElementById('result-verdict').textContent = pass ? '🏆 ¡Certificación Aprobada!' : '✘ No aprobado — Se requiere 75 pts mínimo (de 100)';
+  document.getElementById('result-pct').textContent   = Math.round(total/TOTAL_PTS*100) + '% — ' +
+    (pass ? 'Técnico certificado' : 'Se recomienda repasar el material del módulo y reintentar');
+
+  document.getElementById('bk-a').textContent = Math.round(scoreA) + '/37';
+  document.getElementById('bk-b').textContent = Math.round(scoreB) + '/43';
+  document.getElementById('bk-c').textContent = Math.round(scoreC) + '/20';
+
+  [['bkcard-a', Math.round(scoreA), 37], ['bkcard-b', Math.round(scoreB), 43], ['bkcard-c', Math.round(scoreC), 20]].forEach(([id, got, mx]) => {
+    document.getElementById(id).classList.add(got/mx >= 0.6 ? 'pass-card' : 'fail-card');
+  });
+
+
+  // ── Enviar resultados a Google Sheets ─────────────────────────────────
+  const _nombre = (document.getElementById('input-nombre') && document.getElementById('input-nombre').value.trim()) || 'Anónimo';
+  // Mark as completed in localStorage
+  try {
+    const _lsKey2 = 'numaris_sesion_' + MODULO_ID.replace(/[^a-z0-9]/gi,'_');
+    localStorage.setItem(_lsKey2, JSON.stringify({ bloqueado: true, razon: 'ya_enviado', nombre: _nombre }));
+  } catch(e){}
+  fetch('https://script.google.com/macros/s/AKfycbyxWZPW5JBlYk9shtxxSe_Q3uW-GbfNim-rQKHpEBOkQOLjsxnmPi-rzif4SCo_VT4/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      nombre: _nombre,
+      modulo: MODULO_ID,
+      puntaje: Math.round(total),
+      maximo: TOTAL_PTS,
+      porcentaje: Math.round(total/TOTAL_PTS*100) + '%',
+      resultado: pass ? 'APROBADO' : 'REPROBADO',
+      secA: Math.round(scoreA) + '/37',
+      secB: Math.round(scoreB) + '/43',
+      secC: Math.round(scoreC) + '/20',
+      startTime: examStartTime ? examStartTime.toISOString() : new Date().toISOString(),
+      endTime: new Date().toISOString(),
+      incorrectas: reviewRows.filter(function(r){ return !r.isOk; }).map(function(r){ return { seccion: r.section, pregunta: r.short, respuesta: r.userAnswer, respuesta_correcta: r.corrAnswer || '' }; })
+    })
+  }).then(r => r.json()).then(d => {
+    if (d.success) console.log('✔ Resultado guardado en Sheets');
+  }).catch(err => console.warn('No se pudo guardar en Sheets:', err));
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Verificación de disponibilidad ────────────────────────────────────────
+(function() {
+  var MODULO = MODULO_ID;
+  function mostrarExamen() {
+    document.getElementById('screen-disponibilidad').style.display = 'none';
+    document.getElementById('screen-intro').style.display = '';
+  }
+  function mostrarBloqueo(icono, titulo, mensaje, fechas) {
+    document.getElementById('disp-icon').textContent = icono;
+    document.getElementById('disp-titulo').textContent = titulo;
+    document.getElementById('disp-mensaje').textContent = mensaje || '';
+    document.getElementById('disp-fechas').textContent = fechas || '';
+    document.getElementById('screen-disponibilidad').style.display = '';
+    document.getElementById('screen-intro').style.display = 'none';
+  }
+
+  var _timeoutId = setTimeout(function() { mostrarExamen(); }, 5000);
+
+  var _fetchPromise = fetch(WEBAPP + '?modulo=' + encodeURIComponent(MODULO));
+  var _timeoutPromise = new Promise(function(_, reject) {
+    setTimeout(function() { reject(new Error('timeout')); }, 5000);
+  });
+
+  Promise.race([_fetchPromise, _timeoutPromise])
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      clearTimeout(_timeoutId);
+      if (d.disponible) {
+        if (d.duracion && d.duracion > 0) {
+          TOTAL_SECONDS = d.duracion * 60;
+          secondsLeft   = TOTAL_SECONDS;
+        }
+        mostrarExamen();
+      } else if (d.razon === 'aun_no') {
+        mostrarBloqueo('🔒', 'Examen no disponible aún', d.mensaje,
+          'Disponible del ' + d.fechaInicio + ' al ' + d.fechaFin);
+      } else if (d.razon === 'cerrado') {
+        mostrarBloqueo('🚫', 'Período de evaluación cerrado', d.mensaje,
+          'Estuvo disponible del ' + d.fechaInicio + ' al ' + d.fechaFin);
+      } else if (d.razon === 'desactivado') {
+        mostrarBloqueo('⛔', 'Examen desactivado', d.mensaje, '');
+      } else {
+        mostrarExamen(); // en caso de error o no configurado, mostrar examen
+      }
+    })
+    .catch(function() {
+      clearTimeout(_timeoutId);
+      mostrarExamen(); // si falla la conexión o timeout, mostrar examen
+    });
+})();
+</script>
+</body>
+</html>
